@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ContactLIst
+namespace ContactList
 {
     class Program
     {
