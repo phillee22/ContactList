@@ -72,9 +72,54 @@ namespace ContactList
                 // give the user the cursor so they know we're ready for input...
                 Console.Write(">");
                 cmd = Console.ReadLine();
+#if false
+                if (cmd == ADD)
+                {
+                    AddContact();
+                }
+                else
+                {
+                    if (cmd == LIST)
+                    {
+                        ListContacts();
+                    }
+                    else
+                    {
+                        if (cmd == QUIT)
+                        {
+                            SayGoodbye();
+                        }
+                        else
+                        {
+                            // give "not a command" error...
+                        }
+                    }
+                }
+
+                // Could be this...
+                if (cmd == ADD)
+                {
+                    AddContact();
+                }
+                else if (cmd == LIST)
+                {
+                    ListContacts();
+                }
+                else if (cmd == QUIT)
+                {
+                    SayGoodbye();
+                }
+                else
+                {
+                    // give "not a command" error...
+                }
+
+#else
+                // hit F1...
                 switch (cmd)
                 {
                     case ADD:
+                        // could be multiple lines...
                         AddContact();
                         break;
 
@@ -85,7 +130,12 @@ namespace ContactList
                     case QUIT:
                         SayGoodbye();
                         break;
+
+                    default:
+                        // give "not a command" error...
+                        break;
                 }
+#endif
             }
         }
 
