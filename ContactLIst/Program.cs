@@ -72,6 +72,7 @@ namespace ContactList
             Console.WriteLine("  h : list commands");
             Console.WriteLine("  l : list all contacts");
             Console.WriteLine("  o : open/read a contacts file");
+            Console.WriteLine("  s : save contacts to a file");
             Console.WriteLine("  q : quit the app");
             Console.WriteLine();
         }
@@ -104,9 +105,16 @@ namespace ContactList
 
         private static void SaveContacts()
         {
-            Console.WriteLine("  Saving contacts to file " + filepath);
-            ContactFileReader.SaveContactsToFile(filepath, _contactlist);
-            Console.WriteLine(" !! Contacts saved!");
+            if (_contactlist.Count > 0)
+            {
+                Console.WriteLine("  Saving contacts to file " + filepath);
+                ContactFileReader.SaveContactsToFile(filepath, _contactlist);
+                Console.WriteLine(" !! Contacts saved!");
+            }
+            else
+            {
+                Console.WriteLine(" !! Contact list is empty.  Didn't save.");
+            }
             Console.WriteLine();
         }
 
