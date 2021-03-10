@@ -1,4 +1,5 @@
-Benjamin Franklin; 136 State St., Philadelphia, PA  10483; 204-284-4837
-Betsy Anderson; 123 Main St. #4, New York, NY 10001;212-555-1234
-Alphie Preston; 149 E. 16th Ave., Sunnyvale, CA 94089;408-555-6789
-Gamal Abdel; 369 Center St., Boston, MA 02130; 617-555-1098
+Benjamin Franklin;  204-284-4837;  136 State St., Philadelphia, PA  10483
+Betsy Anderson; 212-555-1234;  123 Main St. #4, New York, NY 10001
+Alphie Preston; 408-555-6789;  149 E. 16th Ave., Sunnyvale, CA 94089
+Gamal Abdel;  617-555-1098;  369 Center St., Boston, MA 02130
+Bob; 425.673.3847; 38473 NE 45th Ave., Redmond, WA  98052

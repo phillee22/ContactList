@@ -5,6 +5,8 @@ namespace ContactList
 {
     class Program
     {
+        const string filepath = "..\\..\\..\\..\\contacts.txt";
+
         static ArrayList _contactlist = null;
 
         static void Main(string[] args)
@@ -66,29 +68,57 @@ namespace ContactList
         {
             Console.WriteLine("Please input a command:");
             Console.WriteLine("  a : add a new contact");
+            Console.WriteLine("  d : delete a contact");
+            Console.WriteLine("  h : list commands");
             Console.WriteLine("  l : list all contacts");
-            Console.WriteLine("  r : remove a contact");
+            Console.WriteLine("  o : open/read a contacts file");
             Console.WriteLine("  q : quit the app");
             Console.WriteLine();
         }
 
         private static void ListContacts()
         {
-            Console.WriteLine("Here's the full list of contacts:");
-            Console.WriteLine();
-            foreach (Contact c in _contactlist)
+            if (_contactlist.Count > 0)
             {
-                Console.WriteLine("  " + c.ToString());
+                Console.WriteLine("Here's the full list of contacts:");
+                Console.WriteLine();
+                foreach (Contact c in _contactlist)
+                {
+                    Console.WriteLine("  " + c.ToString());
+                }
             }
+            else
+            {
+                Console.WriteLine("  Contact list is empty!");
+            }
+            Console.WriteLine();
+        }
+
+        private static void OpenContactsFile()
+        {
+            Console.WriteLine("  Opening file " + filepath);
+            ContactFileReader.ReadContactFile(filepath, _contactlist);
+            Console.WriteLine(" !! Contacts loaded!");
+            Console.WriteLine();
+        }
+
+        private static void SaveContacts()
+        {
+            Console.WriteLine("  Saving contacts to file " + filepath);
+            ContactFileReader.SaveContactsToFile(filepath, _contactlist);
+            Console.WriteLine(" !! Contacts saved!");
             Console.WriteLine();
         }
 
         private static void ProcessUserCommands()
         {
             const string ADD = "a";
+            const string DELETE = "d";
+            const string HELP = "h";
             const string LIST = "l";
+            const string OPEN = "o";
+            const string SAVE = "s";
             const string QUIT = "q";
-            const string REMOVE = "r";
 
             string cmd = string.Empty;
 
@@ -150,16 +180,28 @@ namespace ContactList
                         AddContact();
                         break;
 
+                    case DELETE:
+                        DeleteContact();
+                        break;
+
+                    case HELP:
+                        ListCommands();
+                        break;
+
                     case LIST:
                         ListContacts();
                         break;
 
-                    case QUIT:
-                        SayGoodbye();
+                    case OPEN:
+                        OpenContactsFile();
                         break;
 
-                    case REMOVE:
-                        RemoveContact();
+                    case SAVE:
+                        SaveContacts();
+                        break;
+
+                    case QUIT:
+                        SayGoodbye();
                         break;
 
                     default:
@@ -170,10 +212,10 @@ namespace ContactList
             }
         }
 
-        private static void RemoveContact()
+        private static void DeleteContact()
         {
             Console.WriteLine();
-            Console.Write("Which contact do you want to remove?  ");
+            Console.Write("Which contact do you want to delete?  ");
             ListContacts();
             Console.WriteLine();
             Console.Write("  Enter the contact's name: ");
@@ -182,28 +224,28 @@ namespace ContactList
             Console.WriteLine("  !! Removing " + name);
             string lowername = name.ToLower();
 
-            Contact remove = null;
+            Contact delete = null;
             foreach(Contact c in _contactlist)
             {
                 if (c.Name.ToLower().Contains(lowername))
                 {
-                    remove = c;
+                    delete = c;
                 }
             }
-            if (remove != null) // found the contact to remove...
+            if (delete != null) // found the contact to delete...
             {
-                Console.WriteLine("  !! Found:  " + remove.Name);
-                Console.Write("  !! Confirm removal (y/n) :  ");
+                Console.WriteLine("  !! Found:  " + delete.Name);
+                Console.Write("  !! Confirm deletion (y/n) :  ");
                 string confirm = Console.ReadLine();
                 Console.WriteLine();
                 if (confirm.ToLower() == "y")
                 {
-                    _contactlist.Remove(remove);
-                    Console.WriteLine("  !! Removed " + remove.Name);
+                    _contactlist.Remove(delete);
+                    Console.WriteLine("  !! Det " + delete.Name);
                 }
                 else
                 {
-                    Console.WriteLine("  !! Did NOT remove " + remove.Name);
+                    Console.WriteLine("  !! Did NOT delete " + delete.Name);
                 }
             }
             else
@@ -226,10 +268,10 @@ namespace ContactList
             Console.WriteLine("Hi.  Getting started...");
             Console.WriteLine();
 
-            // Load the test list for now...
-            Console.WriteLine("Loading test list...");
-            CreateTestContacts();
-            Console.WriteLine();
+            //// Load the test list for now...
+            //Console.WriteLine("Loading test list...");
+            //CreateTestContacts();
+            //Console.WriteLine();
 
             ListCommands();
         }
