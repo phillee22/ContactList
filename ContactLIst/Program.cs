@@ -7,11 +7,27 @@ namespace ContactList
     {
         const string filepath = "..\\..\\..\\..\\contacts.txt";
 
+        // User commands
+        const string ADD = "a";
+        const string DELETE = "d";
+        const string FIND = "f";
+        const string HELP = "h";
+        const string LIST = "l";
+        const string OPEN = "o";
+        const string SAVE = "s";
+        const string QUIT = "q";
+
+        // cmd line args
+        const string TEST = "/test";
+
         static ArrayList _contactlist = null;
 
         static void Main(string[] args)
         {
             _contactlist = new ArrayList();
+
+            // show intro will also parse the cmdline args...
+            ShowIntro(args);
             ProcessUserCommands();
         }
 
@@ -48,6 +64,8 @@ namespace ContactList
 
         static void CreateTestContacts()
         {
+            Console.WriteLine(" !! Loading test contacts...");
+
             Contact c = new Contact();
             c.Name = "Benjamin Franklin";
             c.Address = "123 State St., Philadelphia, PA  10483";
@@ -62,6 +80,8 @@ namespace ContactList
 
             c = new Contact("Gamal Abdel", "369 Center St., Boston, MA 02130", "617-555-1098");
             _contactlist.Add(c);
+
+            Console.WriteLine("");
         }
 
         private static void ListCommands()
@@ -118,19 +138,15 @@ namespace ContactList
             Console.WriteLine();
         }
 
+        private static void ShowUsage()
+        {
+            Console.WriteLine("  Usage:  ");
+        }
+
         private static void ProcessUserCommands()
         {
-            const string ADD = "a";
-            const string DELETE = "d";
-            const string HELP = "h";
-            const string LIST = "l";
-            const string OPEN = "o";
-            const string SAVE = "s";
-            const string QUIT = "q";
-
             string cmd = string.Empty;
 
-            ShowIntro();
             while (cmd != QUIT)
             {
                 // give the user the cursor so they know we're ready for input...
@@ -233,7 +249,7 @@ namespace ContactList
             string lowername = name.ToLower();
 
             Contact delete = null;
-            foreach(Contact c in _contactlist)
+            foreach (Contact c in _contactlist)
             {
                 if (c.Name.ToLower().Contains(lowername))
                 {
@@ -271,15 +287,25 @@ namespace ContactList
             Console.WriteLine();
         }
 
-        private static void ShowIntro()
+        private static void ShowIntro(string[] args)
         {
             Console.WriteLine("Hi.  Getting started...");
             Console.WriteLine();
+            foreach (string cmd in args)
+            {
+                switch (cmd)
+                {
+                    case TEST:
+                        CreateTestContacts();
+                        break;
 
-            //// Load the test list for now...
-            //Console.WriteLine("Loading test list...");
-            //CreateTestContacts();
-            //Console.WriteLine();
+                    default:
+                        Console.WriteLine(" !! Invalid cmdline arg.");
+                        Console.WriteLine();
+                        ShowUsage();
+                        break;
+                }
+            }
 
             ListCommands();
         }
