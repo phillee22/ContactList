@@ -84,6 +84,83 @@ namespace ContactList
             Console.WriteLine("");
         }
 
+        private static void DeleteContact()
+        {
+            Console.WriteLine();
+            Console.Write("Which contact do you want to delete?  ");
+            ListContacts();
+            Console.WriteLine();
+            Console.Write("  Enter the contact's name: ");
+            string name = Console.ReadLine();
+            Console.WriteLine();
+            Console.WriteLine("  !! Removing " + name);
+            string lowername = name.ToLower();
+
+            Contact delete = null;
+            foreach (Contact c in _contactlist)
+            {
+                if (c.Name.ToLower().Contains(lowername))
+                {
+                    delete = c;
+                }
+            }
+            if (delete != null) // found the contact to delete...
+            {
+                Console.WriteLine("  !! Found:  " + delete.Name);
+                Console.Write("  !! Confirm deletion (y/n) :  ");
+                string confirm = Console.ReadLine();
+                Console.WriteLine();
+                if (confirm.ToLower() == "y")
+                {
+                    _contactlist.Remove(delete);
+                    Console.WriteLine("  !! Deleted " + delete.Name);
+                }
+                else
+                {
+                    Console.WriteLine("  !! Did NOT delete " + delete.Name);
+                }
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("  !! Didn't find {0} in the list.", delete.Name);
+            }
+            Console.WriteLine();
+        }
+
+        private static void FindContact()
+        {
+            ArrayList foundcontacts = new ArrayList();
+
+            Console.WriteLine();
+            Console.Write("  Enter the search string (case insensitive) : ");
+            string searchstr = Console.ReadLine();
+            string searchstrlower = searchstr.ToLower();
+            Console.WriteLine();
+
+            foreach (Contact c in _contactlist)
+            {
+                if (c.ToString().ToLower().Contains(searchstrlower))
+                {
+                    foundcontacts.Add(c);
+                }
+            }
+            if (foundcontacts.Count > 0)
+            {
+                Console.WriteLine("  Found {0} contacts with search string {1}:", foundcontacts.Count, searchstr);
+                Console.WriteLine();
+                foreach (Contact c in foundcontacts)
+                {
+                    Console.WriteLine("  " + c.ToString());
+                }
+            }
+            else
+            {
+                Console.WriteLine(" Found no contacts with search string {0}.", searchstr);
+            }
+            Console.WriteLine();
+        }
+
         private static void ListCommands()
         {
             Console.WriteLine("Please input a command:");
@@ -152,51 +229,6 @@ namespace ContactList
                 // give the user the cursor so they know we're ready for input...
                 Console.Write(">");
                 cmd = Console.ReadLine();
-#if false
-                if (cmd == ADD)
-                {
-                    AddContact();
-                }
-                else
-                {
-                    if (cmd == LIST)
-                    {
-                        ListContacts();
-                    }
-                    else
-                    {
-                        if (cmd == QUIT)
-                        {
-                            SayGoodbye();
-                        }
-                        else
-                        {
-                            // give "not a command" error...
-                            CommandError(cmd);
-                        }
-                    }
-                }
-
-                // Could be this...
-                if (cmd == ADD)
-                {
-                    AddContact();
-                }
-                else if (cmd == LIST)
-                {
-                    ListContacts();
-                }
-                else if (cmd == QUIT)
-                {
-                    SayGoodbye();
-                }
-                else
-                {
-                    CommandError(cmd);
-                }
-
-#else
-                // hit F1...
                 switch (cmd)
                 {
                     case ADD:
@@ -206,6 +238,10 @@ namespace ContactList
 
                     case DELETE:
                         DeleteContact();
+                        break;
+
+                    case FIND:
+                        FindContact();
                         break;
 
                     case HELP:
@@ -232,52 +268,7 @@ namespace ContactList
                         CommandError(cmd);
                         break;
                 }
-#endif
             }
-        }
-
-        private static void DeleteContact()
-        {
-            Console.WriteLine();
-            Console.Write("Which contact do you want to delete?  ");
-            ListContacts();
-            Console.WriteLine();
-            Console.Write("  Enter the contact's name: ");
-            string name = Console.ReadLine();
-            Console.WriteLine();
-            Console.WriteLine("  !! Removing " + name);
-            string lowername = name.ToLower();
-
-            Contact delete = null;
-            foreach (Contact c in _contactlist)
-            {
-                if (c.Name.ToLower().Contains(lowername))
-                {
-                    delete = c;
-                }
-            }
-            if (delete != null) // found the contact to delete...
-            {
-                Console.WriteLine("  !! Found:  " + delete.Name);
-                Console.Write("  !! Confirm deletion (y/n) :  ");
-                string confirm = Console.ReadLine();
-                Console.WriteLine();
-                if (confirm.ToLower() == "y")
-                {
-                    _contactlist.Remove(delete);
-                    Console.WriteLine("  !! Det " + delete.Name);
-                }
-                else
-                {
-                    Console.WriteLine("  !! Did NOT delete " + delete.Name);
-                }
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("  !! Didn't find " + name + " in the list.");
-            }
-            Console.WriteLine();
         }
 
         private static void SayGoodbye()
