@@ -2,6 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/ContactList/obj
 /.vs/ContactLIst
 /ContactLIst/bin/Debug/netcoreapp3.1
 /ContactLIst/obj
