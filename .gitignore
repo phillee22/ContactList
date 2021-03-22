@@ -5,3 +5,5 @@
 /ContactList/obj
 /.vs/ContactLIst
 /ContactList/bin/Debug/netcoreapp3.1
+/ContactListData/obj
+/ContactListData/bin/Debug/netcoreapp3.1
