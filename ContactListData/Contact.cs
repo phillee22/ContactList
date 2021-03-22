@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ContactList
+namespace ContactListData
 {
     public class Contact
     {
