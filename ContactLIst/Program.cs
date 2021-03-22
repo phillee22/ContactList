@@ -9,6 +9,10 @@ namespace ContactList
 
         static void Main(string[] args)
         {
+            int[] x = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            System.Collections.Generic.List<string> y = new System.Collections.Generic.List<string>();
+            ArrayList z = new ArrayList();
+
             _contactlist = new ArrayList();
             ProcessUserCommands();
         }
