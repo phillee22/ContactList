@@ -11,9 +11,25 @@ namespace ContactList
 
         static void Main(string[] args)
         {
-            int[] x = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            int[] intarray = new int[10];
+            intarray[0] = 19;
+            intarray[9] = 37348929;
+
+
             System.Collections.Generic.List<string> y = new System.Collections.Generic.List<string>();
+            y.Add("hello world!");
+            y.Add("bob");
+            Console.WriteLine(y[1]);
+            //y.Add(intarray[0]);
+
             ArrayList z = new ArrayList();
+            z.Add("hello");
+            z.Add(intarray[0]);
+
+            foreach (object o in z)
+            {
+                Console.WriteLine(o);
+            }
 
             _contactlist = new ArrayList();
             ProcessUserCommands();
