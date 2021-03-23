@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 using ContactListData;
 
@@ -26,6 +27,26 @@ namespace ContactList
 
         static void Main(string[] args)
         {
+            int[] intarray = new int[10];
+            intarray[0] = 19;
+            intarray[9] = 37348929;
+
+
+            System.Collections.Generic.List<string> y = new System.Collections.Generic.List<string>();
+            y.Add("hello world!");
+            y.Add("bob");
+            Console.WriteLine(y[1]);
+            //y.Add(intarray[0]);
+
+            ArrayList z = new ArrayList();
+            z.Add("hello");
+            z.Add(intarray[0]);
+
+            foreach (object o in z)
+            {
+                Console.WriteLine(o);
+            }
+
             _clm = new ContactListData.ContactListManager(filepath);
 
             // show intro will also parse the cmdline args...
