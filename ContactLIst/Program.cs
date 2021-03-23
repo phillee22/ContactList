@@ -5,6 +5,8 @@ namespace ContactList
 {
     class Program
     {
+        // change in main...
+
         const string filepath = "..\\..\\..\\..\\contacts.txt";
 
         static ArrayList _contactlist = null;
