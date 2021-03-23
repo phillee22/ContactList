@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ContactList
 {
@@ -19,6 +17,8 @@ namespace ContactList
 
         public Contact(string Name, string Address, string Phone)
         {
+            // BUGBUG:  Validation of incoming values?
+
             this.Name = Name;
             this.Address = Address;
             this.Phone = Phone;

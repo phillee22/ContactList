@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using System.Text;
 
 namespace ContactList
 {
     public class ContactFileReader
     {
-
-        const string path = @"c:\temp\MyTest.txt";
-
         static Contact ParseContact(string textline)
         {
             string[] buffer = textline.Split(';');

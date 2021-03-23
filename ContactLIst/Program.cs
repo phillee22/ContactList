@@ -9,6 +9,19 @@ namespace ContactList
 
         const string filepath = "..\\..\\..\\..\\contacts.txt";
 
+        // User commands
+        const string ADD = "a";
+        const string DELETE = "d";
+        const string FIND = "f";
+        const string HELP = "h";
+        const string LIST = "l";
+        const string OPEN = "o";
+        const string SAVE = "s";
+        const string QUIT = "q";
+
+        // cmd line args
+        const string TEST = "/test";
+
         static ArrayList _contactlist = null;
 
         static void Main(string[] args)
@@ -34,6 +47,9 @@ namespace ContactList
             }
 
             _contactlist = new ArrayList();
+
+            // show intro will also parse the cmdline args...
+            ShowIntro(args);
             ProcessUserCommands();
         }
 
@@ -70,6 +86,8 @@ namespace ContactList
 
         static void CreateTestContacts()
         {
+            Console.WriteLine(" !! Loading test contacts...");
+
             Contact c = new Contact();
             c.Name = "Benjamin Franklin";
             c.Address = "123 State St., Philadelphia, PA  10483";
@@ -84,6 +102,85 @@ namespace ContactList
 
             c = new Contact("Gamal Abdel", "369 Center St., Boston, MA 02130", "617-555-1098");
             _contactlist.Add(c);
+
+            Console.WriteLine("");
+        }
+
+        private static void DeleteContact()
+        {
+            Console.WriteLine();
+            Console.Write("Which contact do you want to delete?  ");
+            ListContacts();
+            Console.WriteLine();
+            Console.Write("  Enter the contact's name: ");
+            string name = Console.ReadLine();
+            Console.WriteLine();
+            Console.WriteLine("  !! Removing " + name);
+            string lowername = name.ToLower();
+
+            Contact delete = null;
+            foreach (Contact c in _contactlist)
+            {
+                if (c.Name.ToLower().Contains(lowername))
+                {
+                    delete = c;
+                }
+            }
+            if (delete != null) // found the contact to delete...
+            {
+                Console.WriteLine("  !! Found:  " + delete.Name);
+                Console.Write("  !! Confirm deletion (y/n) :  ");
+                string confirm = Console.ReadLine();
+                Console.WriteLine();
+                if (confirm.ToLower() == "y")
+                {
+                    _contactlist.Remove(delete);
+                    Console.WriteLine("  !! Deleted " + delete.Name);
+                }
+                else
+                {
+                    Console.WriteLine("  !! Did NOT delete " + delete.Name);
+                }
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("  !! Didn't find {0} in the list.", delete.Name);
+            }
+            Console.WriteLine();
+        }
+
+        private static void FindContact()
+        {
+            ArrayList foundcontacts = new ArrayList();
+
+            Console.WriteLine();
+            Console.Write("  Enter the search string (case insensitive) : ");
+            string searchstr = Console.ReadLine();
+            string searchstrlower = searchstr.ToLower();
+            Console.WriteLine();
+
+            foreach (Contact c in _contactlist)
+            {
+                if (c.ToString().ToLower().Contains(searchstrlower))
+                {
+                    foundcontacts.Add(c);
+                }
+            }
+            if (foundcontacts.Count > 0)
+            {
+                Console.WriteLine("  Found {0} contacts with search string {1}:", foundcontacts.Count, searchstr);
+                Console.WriteLine();
+                foreach (Contact c in foundcontacts)
+                {
+                    Console.WriteLine("  " + c.ToString());
+                }
+            }
+            else
+            {
+                Console.WriteLine(" Found no contacts with search string {0}.", searchstr);
+            }
+            Console.WriteLine();
         }
 
         private static void ListCommands()
@@ -94,6 +191,7 @@ namespace ContactList
             Console.WriteLine("  h : list commands");
             Console.WriteLine("  l : list all contacts");
             Console.WriteLine("  o : open/read a contacts file");
+            Console.WriteLine("  s : save contacts to a file");
             Console.WriteLine("  q : quit the app");
             Console.WriteLine();
         }
@@ -126,75 +224,33 @@ namespace ContactList
 
         private static void SaveContacts()
         {
-            Console.WriteLine("  Saving contacts to file " + filepath);
-            ContactFileReader.SaveContactsToFile(filepath, _contactlist);
-            Console.WriteLine(" !! Contacts saved!");
+            if (_contactlist.Count > 0)
+            {
+                Console.WriteLine("  Saving contacts to file " + filepath);
+                ContactFileReader.SaveContactsToFile(filepath, _contactlist);
+                Console.WriteLine(" !! Contacts saved!");
+            }
+            else
+            {
+                Console.WriteLine(" !! Contact list is empty.  Didn't save.");
+            }
             Console.WriteLine();
+        }
+
+        private static void ShowUsage()
+        {
+            Console.WriteLine("  Usage:  ");
         }
 
         private static void ProcessUserCommands()
         {
-            const string ADD = "a";
-            const string DELETE = "d";
-            const string HELP = "h";
-            const string LIST = "l";
-            const string OPEN = "o";
-            const string SAVE = "s";
-            const string QUIT = "q";
-
             string cmd = string.Empty;
 
-            ShowIntro();
             while (cmd != QUIT)
             {
                 // give the user the cursor so they know we're ready for input...
                 Console.Write(">");
                 cmd = Console.ReadLine();
-#if false
-                if (cmd == ADD)
-                {
-                    AddContact();
-                }
-                else
-                {
-                    if (cmd == LIST)
-                    {
-                        ListContacts();
-                    }
-                    else
-                    {
-                        if (cmd == QUIT)
-                        {
-                            SayGoodbye();
-                        }
-                        else
-                        {
-                            // give "not a command" error...
-                            CommandError(cmd);
-                        }
-                    }
-                }
-
-                // Could be this...
-                if (cmd == ADD)
-                {
-                    AddContact();
-                }
-                else if (cmd == LIST)
-                {
-                    ListContacts();
-                }
-                else if (cmd == QUIT)
-                {
-                    SayGoodbye();
-                }
-                else
-                {
-                    CommandError(cmd);
-                }
-
-#else
-                // hit F1...
                 switch (cmd)
                 {
                     case ADD:
@@ -204,6 +260,10 @@ namespace ContactList
 
                     case DELETE:
                         DeleteContact();
+                        break;
+
+                    case FIND:
+                        FindContact();
                         break;
 
                     case HELP:
@@ -230,52 +290,7 @@ namespace ContactList
                         CommandError(cmd);
                         break;
                 }
-#endif
             }
-        }
-
-        private static void DeleteContact()
-        {
-            Console.WriteLine();
-            Console.Write("Which contact do you want to delete?  ");
-            ListContacts();
-            Console.WriteLine();
-            Console.Write("  Enter the contact's name: ");
-            string name = Console.ReadLine();
-            Console.WriteLine();
-            Console.WriteLine("  !! Removing " + name);
-            string lowername = name.ToLower();
-
-            Contact delete = null;
-            foreach(Contact c in _contactlist)
-            {
-                if (c.Name.ToLower().Contains(lowername))
-                {
-                    delete = c;
-                }
-            }
-            if (delete != null) // found the contact to delete...
-            {
-                Console.WriteLine("  !! Found:  " + delete.Name);
-                Console.Write("  !! Confirm deletion (y/n) :  ");
-                string confirm = Console.ReadLine();
-                Console.WriteLine();
-                if (confirm.ToLower() == "y")
-                {
-                    _contactlist.Remove(delete);
-                    Console.WriteLine("  !! Det " + delete.Name);
-                }
-                else
-                {
-                    Console.WriteLine("  !! Did NOT delete " + delete.Name);
-                }
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("  !! Didn't find " + name + " in the list.");
-            }
-            Console.WriteLine();
         }
 
         private static void SayGoodbye()
@@ -285,15 +300,25 @@ namespace ContactList
             Console.WriteLine();
         }
 
-        private static void ShowIntro()
+        private static void ShowIntro(string[] args)
         {
             Console.WriteLine("Hi.  Getting started...");
             Console.WriteLine();
+            foreach (string cmd in args)
+            {
+                switch (cmd)
+                {
+                    case TEST:
+                        CreateTestContacts();
+                        break;
 
-            //// Load the test list for now...
-            //Console.WriteLine("Loading test list...");
-            //CreateTestContacts();
-            //Console.WriteLine();
+                    default:
+                        Console.WriteLine(" !! Invalid cmdline arg.");
+                        Console.WriteLine();
+                        ShowUsage();
+                        break;
+                }
+            }
 
             ListCommands();
         }
