@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace ContactListData
@@ -32,6 +33,20 @@ namespace ContactListData
             Contact[] returnlist = new Contact[_contactlist.Count];
             _contactlist.CopyTo(returnlist);
             return returnlist;
+        }
+
+        public IList GetList(IList MyList)
+        {
+            // returns any type that implements the IList interfact - such as ArrayList, List<T>, etc.
+            if (true)
+            {
+                // _contactlist is List<Contact>
+                return (_contactlist);
+            }
+            else
+            {
+                return (new ArrayList());
+            }
         }
 
         public void LoadContactsFromFile(string Filename)

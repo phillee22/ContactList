@@ -7,8 +7,6 @@ namespace ContactList
 {
     class Program
     {
-        // change in main...
-
         const string filepath = "..\\..\\..\\..\\contacts.txt";
 
         // User commands
@@ -29,25 +27,17 @@ namespace ContactList
 
         static void Main(string[] args)
         {
-            int[] intarray = new int[10];
-            intarray[0] = 19;
-            intarray[9] = 37348929;
+            DaysofWeek x = ContactList.DaysofWeek.Friday;
+            Console.WriteLine(x);
 
+            string myString = "Bob";
+            if (myString.Contains('b')) { Console.WriteLine("Bob contains 'b'..."); }
+            if (myString.Contains("b")) { Console.WriteLine("Bob contains 'b'..."); }
+            if (myString.Contains("O", StringComparison.CurrentCultureIgnoreCase)) { Console.WriteLine("Bob contains 'b'..."); }
+            Console.WriteLine(System.Globalization.CultureInfo.CurrentCulture);
 
-            System.Collections.Generic.List<string> y = new System.Collections.Generic.List<string>();
-            y.Add("hello world!");
-            y.Add("bob");
-            Console.WriteLine(y[1]);
-            //y.Add(intarray[0]);
-
-            ArrayList z = new ArrayList();
-            z.Add("hello");
-            z.Add(intarray[0]);
-
-            foreach (object o in z)
-            {
-                Console.WriteLine(o);
-            }
+            DayOfWeek dayOfWeek = DayOfWeek.Friday;
+            Console.WriteLine(dayOfWeek);
 
             _clm = new ContactListData.ContactListManager(filepath);
 

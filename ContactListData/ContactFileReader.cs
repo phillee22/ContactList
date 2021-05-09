@@ -17,8 +17,12 @@ namespace ContactListData
             List<Contact> ret = new List<Contact>();
             using (StreamReader sr = new StreamReader(Filepath))
             {
+                string input;
                 while (sr.Peek() >= 0)
                 {
+                    //input = sr.ReadLine();
+                    //Contact c = ParseContact(input);
+                    //ret.Add(c);
                     ret.Add(ParseContact(sr.ReadLine()));
                 }
             }
