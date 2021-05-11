@@ -16,6 +16,7 @@ namespace ContactList
         const string HELP = "h";
         const string LIST = "l";
         const string OPEN = "o";
+        const string QUESTION = "?";
         const string REMOVE = "r";
         const string SAVE = "s";
         const string QUIT = "q";
@@ -27,6 +28,8 @@ namespace ContactList
 
         static void Main(string[] args)
         {
+
+            // Class illustrations...
             DaysofWeek x = ContactList.DaysofWeek.Friday;
             Console.WriteLine(x);
 
@@ -36,12 +39,11 @@ namespace ContactList
             if (myString.Contains("O", StringComparison.CurrentCultureIgnoreCase)) { Console.WriteLine("Bob contains 'b'..."); }
             Console.WriteLine(System.Globalization.CultureInfo.CurrentCulture);
 
-            DayOfWeek dayOfWeek = DayOfWeek.Friday;
+            System.DayOfWeek dayOfWeek = System.DayOfWeek.Friday;
             Console.WriteLine(dayOfWeek);
 
-            _clm = new ContactListData.ContactListManager(filepath);
-
             // show intro will also parse the cmdline args...
+            _clm = new ContactListData.ContactListManager(filepath);
             ShowIntro(args);
             ProcessUserCommands();
         }
@@ -54,7 +56,14 @@ namespace ContactList
 
             // BUG:  not validating the input...
             Console.Write(" Contact name: ");
-            c.Name = Console.ReadLine();
+            try
+            {
+                c.Name = Console.ReadLine();
+            }
+            catch (ArgumentException ae)
+            {
+                Console.WriteLine(" !!  Name is invalid!  " + ae.Message);
+            }
 
             // BUG:  not validating the input...
             Console.Write(" Contact address: ");
@@ -68,7 +77,7 @@ namespace ContactList
             Console.WriteLine(" !! Contact added:  " + c.ToString());
             Console.WriteLine();
         }
-        
+
         static void CommandError(string cmd)
         {
             Console.WriteLine();
@@ -86,7 +95,7 @@ namespace ContactList
             Console.WriteLine();
 
             Contact[] searchresults = _clm.Search(searchstrlower);
-            if ( (searchresults != null) && (searchresults.Length > 0) )
+            if ((searchresults != null) && (searchresults.Length > 0))
             {
                 Console.WriteLine("  !! Found {0} contacts with search string {1}:", searchresults.Length, searchstr);
                 Console.WriteLine();
@@ -108,9 +117,10 @@ namespace ContactList
             Console.WriteLine("  a : add a new contact");
             Console.WriteLine("  d : delete a contact");
             Console.WriteLine("  f : find/search for a contact");
-            Console.WriteLine("  h : list commands");
+            Console.WriteLine("  h,? : list commands");
             Console.WriteLine("  l : list all contacts");
             Console.WriteLine("  o : open/read a contacts file");
+            Console.WriteLine("  r : remove contact based on search string");
             Console.WriteLine("  s : save contacts to a file");
             Console.WriteLine("  q : quit the app");
             Console.WriteLine();
@@ -139,6 +149,7 @@ namespace ContactList
         {
             Console.WriteLine("  Loading contacts from:  {0}", filepath);
             _clm.LoadContactsFromFile(filepath);
+            Console.WriteLine();
         }
 
         private static void RemoveContact()
@@ -158,8 +169,9 @@ namespace ContactList
             {
                 Console.WriteLine("  !! Contact with name ({0}) was not found...", name);
             }
+            Console.WriteLine();
         }
-        
+
         private static void SaveContacts()
         {
             Console.WriteLine(" !! SaveContacts is not yet re-implemented!\n");
@@ -182,7 +194,6 @@ namespace ContactList
                 switch (cmd)
                 {
                     case ADD:
-                        // could be multiple lines...
                         AddContact();
                         break;
 
@@ -191,6 +202,7 @@ namespace ContactList
                         break;
 
                     case HELP:
+                    case QUESTION:
                         ListCommands();
                         break;
 

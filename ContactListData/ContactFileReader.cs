@@ -17,7 +17,7 @@ namespace ContactListData
             List<Contact> ret = new List<Contact>();
             using (StreamReader sr = new StreamReader(Filepath))
             {
-                string input;
+                //string input;
                 while (sr.Peek() >= 0)
                 {
                     //input = sr.ReadLine();

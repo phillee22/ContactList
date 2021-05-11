@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace ContactListData
 {
-    public class Contact
+    public class Contact : Person
     {
-        public string Name;
         public string Address;
         public string Phone;
 
@@ -26,11 +25,6 @@ namespace ContactListData
             this.Name = Name;
             this.Address = Address;
             this.Phone = Phone;
-        }
-
-        public bool Equals(Contact c)
-        {
-            return (this.Name == c.Name);
         }
 
         public override string ToString()
