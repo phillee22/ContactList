@@ -37,16 +37,7 @@ namespace ContactListData
 
         public IList GetList(IList MyList)
         {
-            // returns any type that implements the IList interfact - such as ArrayList, List<T>, etc.
-            if (true)
-            {
-                // _contactlist is List<Contact>
-                return (_contactlist);
-            }
-            else
-            {
-                return (new ArrayList());
-            }
+            return (_contactlist);
         }
 
         public void LoadContactsFromFile(string Filename)

@@ -175,7 +175,7 @@ namespace ContactList
             }
             catch (System.Collections.Generic.KeyNotFoundException knfe)
             {
-                Console.WriteLine("  !! Contact with name ({0}) was not found...", name);
+                Console.WriteLine("  !! " + knfe.Message);
             }
             Console.WriteLine();
         }
