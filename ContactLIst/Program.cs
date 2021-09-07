@@ -7,7 +7,9 @@ namespace ContactList
 {
     class Program
     {
-        const string filepath = "..\\..\\..\\..\\contacts.txt";
+        const string filepath1 = "..\\..\\..\\..\\contacts.txt";
+        const string filepath2 = "c:\\temp\\contacts.txt";
+        const string filepath3 = "c:/temp/contacts.txt";
 
         // User commands
         const string ADD = "a";
@@ -29,6 +31,7 @@ namespace ContactList
         static void Main(string[] args)
         {
 
+#if IN_CLASS
             // Class illustrations...
             DaysofWeek x = ContactList.DaysofWeek.Friday;
             Console.WriteLine(x);
@@ -41,9 +44,14 @@ namespace ContactList
 
             System.DayOfWeek dayOfWeek = System.DayOfWeek.Friday;
             Console.WriteLine(dayOfWeek);
+#endif
 
             // show intro will also parse the cmdline args...
-            _clm = new ContactListData.ContactListManager(filepath);
+            if (System.IO.File.Exists(filepath1))
+            {
+                Console.WriteLine(" !! Reading from {0}", filepath1);
+            }
+            _clm = new ContactListData.ContactListManager(filepath1);
             ShowIntro(args);
             ProcessUserCommands();
         }
@@ -147,8 +155,8 @@ namespace ContactList
 
         private static void OpenContactsFile()
         {
-            Console.WriteLine("  Loading contacts from:  {0}", filepath);
-            _clm.LoadContactsFromFile(filepath);
+            Console.WriteLine("  Loading contacts from:  {0}", filepath1);
+            _clm.LoadContactsFromFile(filepath1);
             Console.WriteLine();
         }
 

@@ -15,17 +15,22 @@ namespace ContactListData
         public static List<Contact> OpenContactFile(string Filepath)
         {
             List<Contact> ret = new List<Contact>();
-            using (StreamReader sr = new StreamReader(Filepath))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(Filepath)))
             {
-                //string input;
+#if true
                 while (sr.Peek() >= 0)
                 {
-                    //input = sr.ReadLine();
-                    //Contact c = ParseContact(input);
-                    //ret.Add(c);
                     ret.Add(ParseContact(sr.ReadLine()));
                 }
+#else
+                string input;
+                while ((input = sr.ReadLine()) != null)
+                {
+                    ret.Add(ParseContact(input));
+                }
+#endif
             }
+
             return ret;
         }
 

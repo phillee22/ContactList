@@ -10,12 +10,8 @@ namespace ContactListData
 
         public Contact()
         {
-            Name = string.Empty;
             Address = string.Empty;
             Phone = string.Empty;
-            //this.Height = 70;
-            //Weight = 190;
-            //Gender = "male";
         }
 
         public Contact(string Name, string Address, string Phone)

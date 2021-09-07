@@ -1,23 +1,44 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ContactListData
 {
     public class Person : IEquatable<Person>
     {
         string _name;
-        public int Height = 0;
-        public int Weight = 0;
-        public string Gender = string.Empty;
+        GenderChoice _gender;
+        public int Height;
+        public int Weight;
+
+        // default constructor for derived classes...
+        protected Person()
+        {
+            _name = string.Empty;
+            _gender = GenderChoice.Undisclosed;
+            this.Height = 0;
+            Weight = 0;
+        }
+
+        protected Person(string Name, GenderChoice Gender, int Height, int Weight)
+        {
+            _name = Name;
+            _gender = Gender;
+            this.Height = Height;
+            this.Weight = Weight;
+        }
+
+        public GenderChoice Gender
+        {
+            get => _gender;
+        }
 
         public string Name
         {
             get => _name;
+            //get { return _name;}
             set
             {
-                var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+                var regexItem = new Regex("^[a-zA-Z ]*$");
 
                 if (regexItem.IsMatch(value))
                 {
