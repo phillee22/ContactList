@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace ContactList
+namespace ContactListData
 {
-    public class Contact
+    public class Contact : Person
     {
-        public string Name;
         public string Address;
         public string Phone;
 
         public Contact()
         {
-            Name = string.Empty;
             Address = string.Empty;
             Phone = string.Empty;
         }
