@@ -8,8 +8,8 @@ namespace ContactList
     class Program
     {
         const string filepath1 = "..\\..\\..\\..\\contacts.txt";
-        const string filepath2 = "c:\\temp\\contacts.txt";
-        const string filepath3 = "c:/temp/contacts.txt";
+        //const string filepath2 = "c:\\temp\\contacts.txt";
+        //const string filepath3 = "c:/temp/contacts.txt";
 
         // User commands
         const string ADD = "a";
