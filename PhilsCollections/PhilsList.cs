@@ -128,6 +128,23 @@ namespace PhilsCollections
             return temp;
         }
 
+        // assuming that the calling (public) function is checking for errors so we don't have to
+        // throw() from a private helper fuction.
+        private Node _GotoIndex(int index)
+        {
+            Node temp = _head;
+            int _ndx = 0;
+
+            // loop until we find the end or the item...
+            while ((temp != null) && (_ndx < index))
+            {
+                temp = temp.next;
+                _ndx++;
+            }
+
+            return temp;
+        }
+
         public bool Contains(object Item)
         {
             Node trail;    // throw away...
@@ -146,6 +163,7 @@ namespace PhilsCollections
         {
             get { throw new NotImplementedException(); }
         }
+
         public void CopyTo(Array ItemArray, int Index)
         {
             throw new NotImplementedException();
@@ -167,13 +185,38 @@ namespace PhilsCollections
             throw new NotImplementedException();
         }
 
-        public void Insert(object Item)
-        {
-            throw new NotImplementedException();
-        }
         public void Insert(int Index, object Item)
         {
-            throw new NotImplementedException();
+            Node prev = null;
+
+            // clear the error conditions...
+            if (Index < 0) throw new IndexOutOfRangeException();
+            if (Index > this._count) throw new IndexOutOfRangeException("Specified index is off the end of the list.");
+
+
+            if (Index == 0)  // insert at the front of the list...
+            {
+                // if the list is empty, just call Add()
+                if (_count == 0)
+                {
+                    this.Add(Item);
+                }
+                else  //
+                {
+                    prev = new Node(Item);
+                    prev.next = _head;
+                    _head = prev;
+                    _count++;
+                }
+            }
+            else  // go to the index of the node previous to the insertion poiun
+            {
+                prev = this._GotoIndex(Index-1);
+                Node next = prev.next;
+                prev.next = new Node(Item);
+                prev.next.next = next;
+                _count++;
+            }
         }
 
         public void Remove(object Item)
