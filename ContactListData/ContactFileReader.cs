@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using PhilsCollections;
 
 namespace ContactListData
 {
@@ -12,9 +13,9 @@ namespace ContactListData
             return (new Contact(buffer[0], buffer[1], buffer[2]));
         }
 
-        public static List<Contact> OpenContactFile(string Filepath)
+        public static PhilsList OpenContactFile(string Filepath)
         {
-            List<Contact> ret = new List<Contact>();
+            PhilsList ret = new PhilsList();
             using (StreamReader sr = new StreamReader(System.IO.Path.Combine(Filepath)))
             {
 #if true

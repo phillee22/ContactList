@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections;
+using System.Text;
 
-
-namespace PhilsCollections
+namespace PhilsCollections.Generic
 {
-    public class PhilsEnumerator : IEnumerator
+    public class PhilsEnumerator<T> : IEnumerator
     {
         public object _head = null;
         object _current = null;
 
-        public PhilsEnumerator(object Head)
+        public PhilsEnumerator(T Head)
         {
             _head = Head;
         }
@@ -35,8 +35,7 @@ namespace PhilsCollections
                 _current = ((Node)_current).next;
             }
 
-            // return whether we're at the end of the list.
-            return (_current != null);
+            return (((Node)_current).next != null);
         }
 
         public void Reset()

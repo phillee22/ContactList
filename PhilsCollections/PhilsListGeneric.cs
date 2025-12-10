@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 
-namespace PhilsCollections
+namespace PhilsCollections.Generic
 {
-    public class PhilsList : IList
+
+#if false
+
+    public class PhilsList<T> : IList<T>
     {
         int _count = 0;
+        Node _end = null;
         bool _fixedsize = false;
         bool _readonly = false;
         bool _issynchronized = false;
@@ -15,7 +20,7 @@ namespace PhilsCollections
         //*****
         // Properties
         //*****
-        public object this[int index]
+        public T this[int index]
         {        
             get
             {
@@ -71,7 +76,7 @@ namespace PhilsCollections
         //*****
         // Methods
         //*****
-        public int Add(object Item)
+        public void Add(T Item)
         {
             int index = 0;
             Node newnode = new Node(Item);
@@ -92,23 +97,11 @@ namespace PhilsCollections
             }
 
             _count++;
-            return index;
         }
 
-        public void AddRange(PhilsList items)
+        public void AddRange(T[] items)
         {
-            foreach(object item in items)
-            {
-                Add(item);
-            }
-        }
-
-        public void AddRange(Array items)
-        {
-            foreach(object item in items)
-            {
-                this.Add(item);
-            }
+            throw new NotImplementedException("NYI");
         }
 
         public void Clear()
@@ -129,7 +122,7 @@ namespace PhilsCollections
             }
         }
 
-        private Node _Contains(object Item, out Node Trail)
+        private Node _Contains(T Item, out Node Trail)
         {
             Node temp = _head;
             Trail = null;   // must set to null until we know that _head is not empty.
@@ -142,20 +135,6 @@ namespace PhilsCollections
             }
 
             return temp;
-        }
-
-        public bool Contains(object Item)
-        {
-            Node trail;    // throw away...
-
-            if (this._Contains(Item, out trail) != null)   // must have found it - remove the reference to the data object...
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         // assuming that the calling (public) function is checking for errors so we don't have to
@@ -175,35 +154,47 @@ namespace PhilsCollections
             return temp;
         }
 
-        public void CopyTo(Array arrayOfItems, int Index)
+        public bool Contains(T Item)
         {
-            int j = 0;  // starting with the first item in the list
+            Node trail;    // throw away...
 
-            for(int i = Index; i < arrayOfItems.Length && j <this._count; i++)
+            if (this._Contains(Item, out trail) != null)   // must have found it - remove the reference to the data object...
             {
-                arrayOfItems.SetValue(this[j], i);
-                j++;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
+        public object SyncRoot
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void CopyTo(T[] arrayOfItems, int Index)
+        {
+            throw new NotImplementedException("NYI");
+        }
 
         // Implementation for the GetEnumerator method.
-        IEnumerator IEnumerable.GetEnumerator()
+        IEnumerator<T> IEnumerable.GetEnumerator()
         {
             return (IEnumerator)GetEnumerator();
         }
 
-        public PhilsEnumerator GetEnumerator()
+        public PhilsEnumerator<T> GetEnumerator()
         {
             return new PhilsEnumerator(_head);
         }
 
-        public int IndexOf(object Item)
+        public int IndexOf(T Item)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(int Index, object Item)
+        public void Insert(int Index, T Item)
         {
             Node prev = null;
 
@@ -237,8 +228,11 @@ namespace PhilsCollections
             }
         }
 
-        public void Remove(object Item)
+        public bool Remove(T Item)
         {
+            return false;
+
+#if false
             Node trail = null;
             Node temp = this._Contains(Item, out trail);
 
@@ -261,16 +255,15 @@ namespace PhilsCollections
 
                 _count--;
             }
+
+#endif
         }
 
         public void RemoveAt(int Index)
         {
             throw new NotImplementedException();
         }
-
-        public object SyncRoot
-        {
-            get { throw new NotImplementedException(); }
-        }
     }
+#endif
+
 }

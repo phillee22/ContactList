@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using PhilsCollections;
 
 namespace ContactListData
 {
     public class ContactListManager
     {
-        List<Contact> _contactlist;
+        //List<Contact> _contactlist;
+        PhilsList _contactlist;
 
         public ContactListManager(string Filename)
         {
-            _contactlist = new List<Contact>();
+            //_contactlist = new List<Contact>();
+            _contactlist = new PhilsList();
             this.LoadContactsFromFile(Filename);
         }
 
@@ -18,12 +21,13 @@ namespace ContactListData
         {
             _contactlist.Add(NewContact);
         }
-        public void AddContacts(Contact[] NewContacts)
+
+        public void AddContacts(PhilsList NewContacts)
         {
             _contactlist.AddRange(NewContacts);
         }
 
-        public void AddContacts(List<Contact> NewContacts)
+        public void AddContacts(Contact[] NewContacts)
         {
             _contactlist.AddRange(NewContacts);
         }
@@ -31,13 +35,13 @@ namespace ContactListData
         public Contact[] GetContacts()
         {
             Contact[] returnlist = new Contact[_contactlist.Count];
-            _contactlist.CopyTo(returnlist);
+            _contactlist.CopyTo(returnlist, _contactlist.Count);
             return returnlist;
         }
 
         public IList GetList(IList MyList)
         {
-            return (_contactlist);
+            return ((IList)_contactlist);
         }
 
         public void LoadContactsFromFile(string Filename)
