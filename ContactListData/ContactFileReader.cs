@@ -5,14 +5,8 @@ using PhilsCollections;
 
 namespace ContactListData
 {
-    public class ContactFileReader
+    internal class ContactFileReader
     {
-        static Contact ParseContact(string textline)
-        {
-            string[] buffer = textline.Split(';');
-            return (new Contact(buffer[0], buffer[1], buffer[2]));
-        }
-
         public static PhilsList OpenContactFile(string Filepath)
         {
             PhilsList ret = new PhilsList();
@@ -21,7 +15,7 @@ namespace ContactListData
 #if true
                 while (sr.Peek() >= 0)
                 {
-                    ret.Add(ParseContact(sr.ReadLine()));
+                    ret.Add(ContactParser.ParseContact(sr.ReadLine()));
                 }
 #else
                 string input;

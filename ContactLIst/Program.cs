@@ -58,30 +58,24 @@ namespace ContactList
 
         static void AddContact()
         {
-            Contact c = new Contact();
+            string[] buffer = new string[3];  // name, address, phone
+
             Console.WriteLine("Adding new contact.");
             Console.WriteLine();
 
             // BUG:  not validating the input...
-            Console.Write(" Contact name: ");
-            try
-            {
-                c.Name = Console.ReadLine();
-            }
-            catch (ArgumentException ae)
-            {
-                Console.WriteLine(" !!  Name is invalid!  " + ae.Message);
-            }
+            Console.Write(" Contact name (first MI last) : ");
+            buffer[0] = Console.ReadLine();
 
             // BUG:  not validating the input...
             Console.Write(" Contact address: ");
-            c.Address = Console.ReadLine();
+            buffer[1] = Console.ReadLine();
 
             // BUG:  not validating the input...
-            Console.Write(" Contact phone: ");
-            c.Phone = Console.ReadLine();
+            Console.Write(" Contact phone (xxx-xxx-xxxx) : ");
+            buffer[2] = Console.ReadLine();
 
-            _clm.AddContact(c);
+            Contact c = _clm.AddContact(buffer[0], buffer[1], buffer[2]);
             Console.WriteLine(" !! Contact added:  " + c.ToString());
             Console.WriteLine();
         }
@@ -180,7 +174,7 @@ namespace ContactList
             Console.WriteLine();
         }
 
-        private static void SaveContacts()
+        private static void SaveContactList()
         {
             Console.WriteLine(" !! SaveContacts is not yet re-implemented!\n");
         }
@@ -227,7 +221,7 @@ namespace ContactList
                         break;
 
                     case SAVE:
-                        SaveContacts();
+                        SaveContactList();
                         break;
 
                     case QUIT:

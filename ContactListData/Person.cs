@@ -35,8 +35,7 @@ namespace ContactListData
         public string Name
         {
             get => _name;
-            //get { return _name;}
-            set
+            internal set
             {
                 var regexItem = new Regex("^[a-zA-Z ]*$");
 

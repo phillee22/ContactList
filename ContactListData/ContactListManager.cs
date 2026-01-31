@@ -7,7 +7,6 @@ namespace ContactListData
 {
     public class ContactListManager
     {
-        //List<Contact> _contactlist;
         PhilsList _contactlist;
 
         public ContactListManager(string Filename)
@@ -20,6 +19,13 @@ namespace ContactListData
         public void AddContact(Contact NewContact)
         {
             _contactlist.Add(NewContact);
+        }
+
+        public Contact AddContact(string Name, string Address, string Phone)
+        {
+            Contact ret = new Contact(Name, Address, Phone);
+            _contactlist.Add(ret);
+            return ret;
         }
 
         public void AddContacts(PhilsList NewContacts)

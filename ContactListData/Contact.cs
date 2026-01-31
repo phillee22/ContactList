@@ -5,27 +5,51 @@ namespace ContactListData
 {
     public class Contact : Person
     {
-        public string Address;
-        public string Phone;
+        string _phone;
+        Address _address;
 
         public Contact()
         {
-            Address = string.Empty;
-            Phone = string.Empty;
+            _address = null;
+            _phone = string.Empty;
+        }
+        public Contact(string Name, string MailingAddress, string Phone)
+        {
+            // BUGBUG:  Validation of incoming values?
+            this.Name = Name;
+            _address = ContactParser.ParseAddress(MailingAddress);
+            _phone = Phone;
         }
 
-        public Contact(string Name, string Address, string Phone)
+        public Contact(string Name, Address MailingAddress, string Phone)
         {
             // BUGBUG:  Validation of incoming values?
 
             this.Name = Name;
-            this.Address = Address;
-            this.Phone = Phone;
+            _address = MailingAddress;
+            _phone = Phone;
+        }
+
+        public Address MailingAddress
+        {
+            get
+            {
+                return _address;
+            }
+            protected set
+            {
+                _address = value;
+            }
+        }
+
+        public string MachinePrint()
+        {
+            return (this.Name + ";" + _address.MachinePrint() + ";" + _phone);
         }
 
         public override string ToString()
         {
-            return (this.Name + "; " + this.Phone + "; " + this.Address);
+            return (this.Name + "; " + _address.ToString() + "; " + _phone);
         }
     }
 }
