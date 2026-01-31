@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.ObjectModel;
+using System.Data;
 
 
 namespace PhilsCollections
@@ -7,8 +9,8 @@ namespace PhilsCollections
     public class PhilsList : IList
     {
         int _count = 0;
-        bool _fixedsize = false;
-        bool _readonly = false;
+        //bool _fixedsize = false;  this list will not be fixed size.
+        //bool _readonly = false;  this list will not be readonly.
         bool _issynchronized = false;
         Node _head = null;
 
@@ -56,11 +58,11 @@ namespace PhilsCollections
         }
         public bool IsFixedSize
         {
-            get { return _fixedsize; }
+            get { return false; }
         }
         public bool IsReadOnly
         {
-            get { return _readonly; }
+            get { return false; }
         }
 
         public bool IsSynchronized
@@ -97,7 +99,7 @@ namespace PhilsCollections
 
         public void AddRange(PhilsList items)
         {
-            foreach(object item in items)
+            foreach (object item in items)
             {
                 Add(item);
             }
@@ -105,7 +107,7 @@ namespace PhilsCollections
 
         public void AddRange(Array items)
         {
-            foreach(object item in items)
+            foreach (object item in items)
             {
                 this.Add(item);
             }
@@ -148,7 +150,7 @@ namespace PhilsCollections
         {
             Node trail;    // throw away...
 
-            if (this._Contains(Item, out trail) != null)   // must have found it - remove the reference to the data object...
+            if (this._Contains(Item, out trail) != null)
             {
                 return true;
             }
@@ -175,11 +177,11 @@ namespace PhilsCollections
             return temp;
         }
 
-        public void CopyTo(Array arrayOfItems, int Index)
+        public void CopyTo(Array arrayOfItems, int Count)
         {
             int j = 0;  // starting with the first item in the list
 
-            for(int i = Index; i < arrayOfItems.Length && j <this._count; i++)
+            for(int i = 0; i < arrayOfItems.Length && j < this._count; i++)
             {
                 arrayOfItems.SetValue(this[j], i);
                 j++;
@@ -200,7 +202,13 @@ namespace PhilsCollections
 
         public int IndexOf(object Item)
         {
-            throw new NotImplementedException();
+            for(int i = 0; i < _count; i++)
+            {
+                if (this[i] == Item)
+                    return i;
+            }
+
+            return (-1);
         }
 
         public void Insert(int Index, object Item)

@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PhilsCollections;
 
+
+[assembly: DoNotParallelize]
 namespace PhilsCollectionsTests
 {
     [TestClass]
@@ -168,6 +170,33 @@ namespace PhilsCollectionsTests
         }
 
         [TestMethod]
+        public void FixedSizeTest1()
+        {
+            PhilsList plist = new PhilsList();
+
+            // set RO and attempt to Add.
+            Assert.IsFalse(plist.IsFixedSize, "PhilList is incorrectly expandable.");
+        }
+
+        [TestMethod]
+        public void IndexOfTest1()
+        {
+            PhilsList plist = new PhilsList();
+
+            // with empty list...
+            Assert.AreEqual(-1, plist.IndexOf(29), " !! Incorrect return value on IndexOf() for empty list.");
+
+            // add an item and get it's index
+            string s = "bob";
+            plist.Add(s);
+            Assert.AreEqual(0, plist.IndexOf(s), " !! IndexOf returned the incorrect value.");
+
+            // remove the item and confirm that the return value is -1
+            plist.Remove(s);
+            Assert.AreEqual(-1, plist.IndexOf(s), " !! Incorrect return value on IndexOf() for empty list.");
+        }
+
+        [TestMethod]
         public void InsertTest1()
         {
             PhilsList plist = new PhilsList();
@@ -250,6 +279,14 @@ namespace PhilsCollectionsTests
             Assert.AreEqual(s, plist[0].ToString(), " !! Wrong answer on case-sensitive list.");
         }
 
+        [TestMethod]
+        public void ReadOnlyTest1()
+        {
+            PhilsList plist = new PhilsList();
+
+            // set RO and attempt to Add.
+            Assert.IsFalse(plist.IsReadOnly, "PhilList is incorrectly read-write.");
+        }
 
         [TestMethod]
         public void RemoveTest1()
@@ -264,6 +301,7 @@ namespace PhilsCollectionsTests
             plist.Add("Bob");
             plist.Remove("Bob");
             Assert.AreEqual(0, plist.Count, " !! Count is wrong after add/remove only item.");
+            Assert.IsFalse(plist.Contains("Bob"), " !! the list incorrectly conains Bob.");
 
             // Add two items and remove the first then the second...
             plist.Add("43.amv094");
@@ -282,10 +320,11 @@ namespace PhilsCollectionsTests
             plist.Add("43.bkeo3404");
             f1 = 43.384F;
             plist.Add(f1);
-            Assert.AreEqual(2, plist.Count, " !! Count is wrong.");
+            Assert.AreEqual(2, plist.Count, " !! Count is wrong after adding two items.");
 
             plist.Remove(f1);
-            Assert.AreEqual(1, plist.Count, " !! Count is wrong.");
+            Assert.AreEqual(1, plist.Count, " !! Count is wrong after removing f1.");
+            Assert.AreEqual("43.bkeo3404", plist[0], "xxx");
 
             plist.Remove("43.bkeo3404");
             Assert.AreEqual(0, plist.Count, " !! Count is wrong.");
@@ -297,8 +336,12 @@ namespace PhilsCollectionsTests
                 plist.Add(i);
             }
             Assert.AreEqual(5, plist.Count, " !! Count is wrong after adding a bunch.");
-            plist.Remove(3);
+            plist.Remove(3);    // remove item who's value == 3.  Item[3].
             Assert.AreEqual(4, plist.Count, " !! Count is wrong after removing from the middle.");
+            Assert.AreEqual(0, plist[0], " !! After removing from the middle, the first item is wrong.");
+            Assert.AreEqual(1, plist[1], " !! After removing from the middle, the second item is wrong.");
+            // since we removed Item[3] who's value was 3, the previous fourth item should now be Item[3]...
+            Assert.AreEqual(4, plist[3], " !! After removing from the middle, the fourth item is wrong.");
 
 
             // attempt to remove an item not in the plist
